@@ -63,6 +63,21 @@ function! DWM_Stack(clockwise)
   " +-----------------+
   " |        S3       |
   " +-----------------+
+
+  " ... But if windows were spawned something other than DWM, it may not be, so
+  " let's normalize the layout just to be sure
+
+  " Get the number of the current window so we can come back here
+  let l:curwin=winnr()
+  " Cycle through all the windows, putting each one at the bottom
+  let l:i=1
+  while l:i <= winnr('$')
+    1wincmd w
+    wincmd J
+    let l:i += 1
+  endwhile
+  " Return to the window we started in
+  exec l:curwin . "wincmd w"
 endfunction
 
 " Add a new buffer
